@@ -3525,7 +3525,7 @@ if (!Object.entries) {
                   if (settingsDt.aoPreSearchCols[column_position].search !== '') {
                     tmpStr = settingsDt.aoPreSearchCols[column_position].search;
                     if (columnObj.filter_type === "select") {
-                      tmpStr = yadcfParseMatchFilter(tmpStr, getOptions(table_selector)[column_number].filter_match_mode);
+                      tmpStr = yadcfParseMatchFilter(tmpStr, columnObj.filter_match_mode);
                       let foundEntry = $('#yadcf-filter-' + table_selector_jq_friendly + '-' + column_number + ' option').filter(function () {
                         return $(this).val() === tmpStr;
                       }).prop('selected', true);
@@ -3533,7 +3533,7 @@ if (!Object.entries) {
                         $('#yadcf-filter-' + table_selector_jq_friendly + '-' + column_number).addClass("inuse");
                       }
                     } else if (columnObj.filter_type === "multi_select") {
-                      tmpStr = yadcfParseMatchFilterMultiSelect(tmpStr, getOptions(table_selector)[column_number].filter_match_mode);
+                      tmpStr = yadcfParseMatchFilterMultiSelect(tmpStr, columnObj.filter_match_mode);
                       tmpStr = tmpStr.replace(/\\/g, "");
                       tmpStr = tmpStr.split("|");
                       $('#yadcf-filter-' + table_selector_jq_friendly + '-' + column_number).val(tmpStr);
@@ -3709,8 +3709,8 @@ if (!Object.entries) {
 
                 if (settingsDt.aoPreSearchCols[column_position]?.search) {
                   tmpStr = settingsDt.aoPreSearchCols[column_position].search;
-                  tmpStr = yadcfParseMatchFilter(tmpStr, getOptions(table_selector)[column_number].filter_match_mode);
-                  const match_mode = getOptions(table_selector)[column_number].filter_match_mode;
+                  tmpStr = yadcfParseMatchFilter(tmpStr, columnObj.filter_match_mode);
+                  const match_mode = columnObj.filter_match_mode;
                   let null_str = columnObj.select_null_option;
                   let excludeStrStart = "^((?!";
                   let excludeStrEnd = ").)*$";
@@ -3729,7 +3729,7 @@ if (!Object.entries) {
                       break;
                   }
                   null_str = "^((?!" + null_str + ").)*$";
-                  null_str = yadcfParseMatchFilter(null_str, getOptions(table_selector)[column_number].filter_match_mode);
+                  null_str = yadcfParseMatchFilter(null_str, columnObj.filter_match_mode);
 
                   let exclude = false;
                   // null with exclude selected
@@ -3816,7 +3816,7 @@ if (!Object.entries) {
 
                   if (settingsDt.aoPreSearchCols[column_position]?.search !== '') {
                     tmpStr = settingsDt.aoPreSearchCols[column_position].search;
-                    tmpStr = yadcfParseMatchFilterMultiSelect(tmpStr, getOptions(table_selector)[column_number].filter_match_mode);
+                    tmpStr = yadcfParseMatchFilterMultiSelect(tmpStr, columnObj.filter_match_mode);
                     tmpStr = tmpStr.replace(/\\/g, "");
                     tmpStr = tmpStr.split("|");
                     $('#yadcf-filter-' + table_selector_jq_friendly + '-' + column_number).val(tmpStr);
@@ -4141,7 +4141,7 @@ if (!Object.entries) {
               $("#yadcf-filter-" + table_selector_jq_friendly + "-" + column_number).autocomplete(autocompleteObj);
               if (settingsDt.aoPreSearchCols[column_position].search !== '') {
                 tmpStr = settingsDt.aoPreSearchCols[column_position].search;
-                tmpStr = yadcfParseMatchFilter(tmpStr, getOptions(table_selector)[column_number].filter_match_mode);
+                tmpStr = yadcfParseMatchFilter(tmpStr, columnObj.filter_match_mode);
                 $('#yadcf-filter-' + table_selector_jq_friendly + '-' + column_number).val(tmpStr).addClass("inuse");
               }
             }
