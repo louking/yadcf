@@ -979,15 +979,15 @@ if (!Object.entries) {
         if (!selected_value) {
           return '';
         }
-        table_arg.fnSettings().aoPreSearchCols[column_number].smart = false;
-        table_arg.fnSettings().aoPreSearchCols[column_number].regex = true;
-        table_arg.fnSettings().aoPreSearchCols[column_number].caseInsensitive = case_insensitive;
+        table_arg.settings()[0].aoPreSearchCols[column_number].smart = false;
+        table_arg.settings()[0].aoPreSearchCols[column_number].regex = true;
+        table_arg.settings()[0].aoPreSearchCols[column_number].caseInsensitive = case_insensitive;
 
         if (multiple === undefined || multiple === false) {
           if (exclude !== true) {
             if (filter_match_mode === "contains") {
-              table_arg.fnSettings().aoPreSearchCols[column_number].smart = true;
-              table_arg.fnSettings().aoPreSearchCols[column_number].regex = false;
+              table_arg.settings()[0].aoPreSearchCols[column_number].smart = true;
+              table_arg.settings()[0].aoPreSearchCols[column_number].regex = false;
               ret_val = selected_value;
             } else if (filter_match_mode === "exact") {
               ret_val = "^" + selected_value + "$";
@@ -1172,7 +1172,7 @@ if (!Object.entries) {
           }
           if (oTable.settings()[0].oInit.stateSave === true) {
             stateSaveNullSelect(oTable, columnObj, table_selector_jq_friendly, column_number, filter_match_mode, exclude_checked);
-            oTable.fnSettings().oApi._fnSaveState(oTable.fnSettings());
+            oTable.state.save();
           }
         } else {
           $("#yadcf-filter-" + table_selector_jq_friendly + "-" + column_number).removeClass("inuse");
@@ -5150,7 +5150,7 @@ if (!Object.entries) {
         var tmpParams,
           i = 0,
           selector,
-          tableSelector = '#' + this.fnSettings().sTableId;
+          tableSelector = '#' + $(this).DataTable().settings()[0].sTableId;
 
         //in case that instance.selector will be undefined (jQuery 3)
         if (this.selector === undefined) {
@@ -5652,7 +5652,7 @@ if (!Object.entries) {
                   $('#yadcf-filter-' + table_selector_jq_friendly + '-' + column_number).removeClass('inuse');
                 }
                 tmpStr = yadcfMatchFilterString(table_arg, column_position, filter_value, optionsObj.filter_match_mode, false, exclude);
-                table_arg.fnSettings().aoPreSearchCols[column_position].search = tmpStr;
+                table_arg.settings()[0].aoPreSearchCols[column_position].search = tmpStr;
                 break;
               case 'select':
                 $('#yadcf-filter-' + table_selector_jq_friendly + '-' + column_number).val(filter_value);
@@ -5662,7 +5662,7 @@ if (!Object.entries) {
                   $('#yadcf-filter-' + table_selector_jq_friendly + '-' + column_number).removeClass('inuse');
                 }
                 tmpStr = yadcfMatchFilterString(table_arg, column_position, filter_value, optionsObj.filter_match_mode, false);
-                table_arg.fnSettings().aoPreSearchCols[column_position].search = tmpStr;
+                table_arg.settings()[0].aoPreSearchCols[column_position].search = tmpStr;
                 if (optionsObj.select_type !== undefined) {
                   refreshSelectPlugin(optionsObj, $('#yadcf-filter-' + table_selector_jq_friendly + '-' + column_number));
                 }
@@ -5670,7 +5670,7 @@ if (!Object.entries) {
               case 'multi_select':
                 $('#yadcf-filter-' + table_selector_jq_friendly + '-' + column_number).val(filter_value);
                 tmpStr = yadcfMatchFilterString(table_arg, column_position, filter_value, optionsObj.filter_match_mode, true);
-                table_arg.fnSettings().aoPreSearchCols[column_position].search = tmpStr;
+                table_arg.settings()[0].aoPreSearchCols[column_position].search = tmpStr;
                 if (optionsObj.select_type !== undefined) {
                   refreshSelectPlugin(optionsObj, $('#yadcf-filter-' + table_selector_jq_friendly + '-' + column_number));
                 }
@@ -5690,10 +5690,10 @@ if (!Object.entries) {
                 } else {
                   $('#' + toId).removeClass('inuse');
                 }
-                if (table_arg.fnSettings().oFeatures.bServerSide === true) {
+                if (table_arg.settings()[0].oFeatures.bServerSide === true) {
                   min = filter_value.from;
                   max = filter_value.to;
-                  table_arg.fnSettings().aoPreSearchCols[column_position].search = min + optionsObj.custom_range_delimiter + max;
+                  table_arg.settings()[0].aoPreSearchCols[column_position].search = min + optionsObj.custom_range_delimiter + max;
                 }
                 saveStateSave(table_arg, column_number, table_selector_jq_friendly, filter_value.from, filter_value.to);
                 break;
@@ -5712,8 +5712,8 @@ if (!Object.entries) {
                 } else {
                   $('#' + toId).removeClass('inuse');
                 }
-                if (table_arg.fnSettings().oFeatures.bServerSide === true) {
-                  table_arg.fnSettings().aoPreSearchCols[column_position].search = filter_value.from + optionsObj.custom_range_delimiter + filter_value.to;
+                if (table_arg.settings()[0].oFeatures.bServerSide === true) {
+                  table_arg.settings()[0].aoPreSearchCols[column_position].search = filter_value.from + optionsObj.custom_range_delimiter + filter_value.to;
                 }
                 saveStateSave(table_arg, column_number, table_selector_jq_friendly, filter_value.from, filter_value.to);
                 break;
@@ -5745,8 +5745,8 @@ if (!Object.entries) {
                   }
                   $('#' + sliderId).slider('values', 1, filter_value.to);
                 }
-                if (table_arg.fnSettings().oFeatures.bServerSide === true) {
-                  table_arg.fnSettings().aoPreSearchCols[column_position].search = filter_value.from + optionsObj.custom_range_delimiter + filter_value.to;
+                if (table_arg.settings()[0].oFeatures.bServerSide === true) {
+                  table_arg.settings()[0].aoPreSearchCols[column_position].search = filter_value.from + optionsObj.custom_range_delimiter + filter_value.to;
                 }
                 saveStateSave(table_arg, column_number, table_selector_jq_friendly, filter_value.from, filter_value.to);
                 break;
@@ -5759,8 +5759,8 @@ if (!Object.entries) {
                 } else {
                   $('#yadcf-filter-' + table_selector_jq_friendly + '-' + column_number).removeClass('inuse');
                 }
-                if (table_arg.fnSettings().oFeatures.bServerSide === true) {
-                  table_arg.fnSettings().aoPreSearchCols[column_position].search = filter_value;
+                if (table_arg.settings()[0].oFeatures.bServerSide === true) {
+                  table_arg.settings()[0].aoPreSearchCols[column_position].search = filter_value;
                 }
                 if (optionsObj.select_type !== undefined) {
                   refreshSelectPlugin(optionsObj, $('#yadcf-filter-' + table_selector_jq_friendly + '-' + column_number), filter_value);
@@ -5769,7 +5769,7 @@ if (!Object.entries) {
                 break;
             }
           }
-          if (table_arg.fnSettings().oFeatures.bServerSide !== true) {
+          if (table_arg.settings()[0].oFeatures.bServerSide !== true) {
             table_arg.draw();
           } else {
             setTimeout(function () {
@@ -5944,7 +5944,7 @@ if (!Object.entries) {
                 resetExcludeRegexCheckboxes($filterElement.parent());
                 clearStateSave(table_arg, column_number, table_selector_jq_friendly);
                 $filterElement.val('-1').removeClass('inuse');
-                table_arg.fnSettings().aoPreSearchCols[column_number].search = '';
+                table_arg.settings()[0].aoPreSearchCols[column_number].search = '';
                 if (optionsObj.select_type !== undefined) {
                   refreshSelectPlugin(optionsObj, $filterElement, '-1');
                 }
@@ -5953,13 +5953,13 @@ if (!Object.entries) {
               case 'text':
                 $filterElement.prop('disabled', false);
                 $filterElement.val('').removeClass('inuse inuse-exclude inuse-regex');
-                table_arg.fnSettings().aoPreSearchCols[column_number].search = '';
+                table_arg.settings()[0].aoPreSearchCols[column_number].search = '';
                 resetExcludeRegexCheckboxes($filterElement.parent());
                 clearStateSave(table_arg, column_number, table_selector_jq_friendly);
                 break;
               case 'date':
                 $filterElement.val('').removeClass('inuse');
-                table_arg.fnSettings().aoPreSearchCols[column_number].search = '';
+                table_arg.settings()[0].aoPreSearchCols[column_number].search = '';
                 if ($filterElement.prev().hasClass('yadcf-exclude-wrapper')) {
                   $filterElement.prev().find('input').prop('checked', false);
                 }
@@ -5968,7 +5968,7 @@ if (!Object.entries) {
               case 'multi_select_custom_func':
                 $filterElement.val('-1');
                 $(document).data("#yadcf-filter-" + table_selector_jq_friendly + "-" + column_number + "_val", undefined);
-                table_arg.fnSettings().aoPreSearchCols[column_number].search = '';
+                table_arg.settings()[0].aoPreSearchCols[column_number].search = '';
                 if (optionsObj.select_type !== undefined) {
                   refreshSelectPlugin(optionsObj, $filterElement, '-1');
                 }
@@ -5980,8 +5980,8 @@ if (!Object.entries) {
                 $(selectorePrefix + '#' + fromId).removeClass('inuse');
                 $(selectorePrefix + '#' + toId).val('');
                 $(selectorePrefix + '#' + toId).removeClass('inuse');
-                if (table_arg.fnSettings().oFeatures.bServerSide === true) {
-                  table_arg.fnSettings().aoPreSearchCols[column_number].search = '';
+                if (table_arg.settings()[0].oFeatures.bServerSide === true) {
+                  table_arg.settings()[0].aoPreSearchCols[column_number].search = '';
                 }
                 clearStateSave(table_arg, column_number, table_selector_jq_friendly);
                 break;
@@ -5994,8 +5994,8 @@ if (!Object.entries) {
                 $(selectorePrefix + '#' + toId).prop('disabled', false);
                 $(selectorePrefix + '#' + toId).val('');
                 $(selectorePrefix + '#' + toId).removeClass('inuse inuse-exclude');
-                if (table_arg.fnSettings().oFeatures.bServerSide === true) {
-                  table_arg.fnSettings().aoPreSearchCols[column_number].search = '';
+                if (table_arg.settings()[0].oFeatures.bServerSide === true) {
+                  table_arg.settings()[0].aoPreSearchCols[column_number].search = '';
                 }
                 resetExcludeRegexCheckboxes($(selectorePrefix + '#' + fromId).parent().parent());
                 clearStateSave(table_arg, column_number, table_selector_jq_friendly);
@@ -6011,8 +6011,8 @@ if (!Object.entries) {
                 $(selectorePrefix + '#' + toId).parent().removeClass('inuse');
                 $(selectorePrefix + '#' + toId).parent().parent().find('.ui-slider-range').removeClass('inuse');
                 $(selectorePrefix + '#' + sliderId).slider("option", "values", [$('#' + fromId).parent().parent().find('.yadcf-filter-range-number-slider-min-tip-hidden').text(), $('#' + fromId).parent().parent().find('.yadcf-filter-range-number-slider-max-tip-hidden').text()]);
-                if (table_arg.fnSettings().oFeatures.bServerSide === true) {
-                  table_arg.fnSettings().aoPreSearchCols[column_number].search = '';
+                if (table_arg.settings()[0].oFeatures.bServerSide === true) {
+                  table_arg.settings()[0].aoPreSearchCols[column_number].search = '';
                 }
                 clearStateSave(table_arg, column_number, table_selector_jq_friendly);
                 break;
