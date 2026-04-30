@@ -4998,11 +4998,12 @@ if (!Object.entries) {
 
       function initAndBindTable(oTable, table_selector, index, pTableDT) {
 
-        var table_selector_jq_friendly = yadcf.generateTableSelectorJQFriendly2(oTable),
+        var table_selector_jq_friendly,
           table_selector_tmp;
         if (!(oTable instanceof $.fn.dataTable.Api)) {
           oTable = new $.fn.dataTable.Api(oTable);
         }
+        table_selector_jq_friendly = yadcf.generateTableSelectorJQFriendly2(oTable);
         oTables[table_selector_jq_friendly] = oTable;
         tablesDT[table_selector_jq_friendly] = pTableDT;
         oTablesIndex[table_selector_jq_friendly] = index;
@@ -5621,10 +5622,9 @@ if (!Object.entries) {
           min,
           max,
           exclude = false;
-        //check if the table arg is from new datatables API (capital "D")
-        // if (table_arg.settings !== undefined) {
-        // 	table_arg = table_arg.settings()[0].oInstance;
-        // }
+        if (!(table_arg instanceof $.fn.dataTable.Api)) {
+          table_arg = new $.fn.dataTable.Api(table_arg);
+        }
         table_selector_jq_friendly = yadcf.generateTableSelectorJQFriendly2(table_arg);
         if (isDOMSource(table_arg) || ajaxSource === true) {
           for (j = 0; j < col_filter_arr.length; j++) {
@@ -5789,10 +5789,9 @@ if (!Object.entries) {
           optionsObj,
           $filterElement;
 
-        // //check if the table arg is from new datatables API (capital "D")
-        // if (table_arg.settings !== undefined) {
-        // 	table_arg = table_arg.settings()[0].oInstance;
-        // }
+        if (!(table_arg instanceof $.fn.dataTable.Api)) {
+          table_arg = new $.fn.dataTable.Api(table_arg);
+        }
 
         optionsObj = getOptions('#' + table_arg.table().node().id)[column_number];
         table_selector_jq_friendly = yadcf.generateTableSelectorJQFriendly2(table_arg);
@@ -5915,10 +5914,9 @@ if (!Object.entries) {
           i,
           $filterElement;
 
-        //check if the table arg is from new datatables API (capital "D")
-        // if (table_arg.settings !== undefined) {
-        // 	table_arg = table_arg.settings()[0].oInstance;
-        // }
+        if (!(table_arg instanceof $.fn.dataTable.Api)) {
+          table_arg = new $.fn.dataTable.Api(table_arg);
+        }
         tableOptions = getOptions('#' + table_arg.table().node().id);
         table_selector_jq_friendly = yadcf.generateTableSelectorJQFriendly2(table_arg);
         settingsDt = getSettingsObjFromTable(table_arg);
@@ -6044,10 +6042,9 @@ if (!Object.entries) {
           filtersValuesSingleElem,
           filtersValuesArr = [];
 
-        //check if the table arg is from new datatables API (capital "D")
-        // if (table_arg.settings !== undefined) {
-        // 	table_arg = table_arg.settings()[0].oInstance;
-        // }
+        if (!(table_arg instanceof $.fn.dataTable.Api)) {
+          table_arg = new $.fn.dataTable.Api(table_arg);
+        }
         columnsObj = getOptions('#' + table_arg.table().node().id);
 
         for (columnObjKey in columnsObj) {
@@ -6086,9 +6083,9 @@ if (!Object.entries) {
       }
 
       function exRefreshColumnFilterWithDataProp(table_arg, col_num, updatedData) {
-        // if (table_arg.settings !== undefined) {
-        // 	table_arg = table_arg.settings()[0].oInstance;
-        // }
+        if (!(table_arg instanceof $.fn.dataTable.Api)) {
+          table_arg = new $.fn.dataTable.Api(table_arg);
+        }
         var columnsObj = getOptions('#' + table_arg.table().node().id);
         var columnObj = columnsObj[col_num];
         columnObj.data = updatedData;
