@@ -3278,7 +3278,7 @@ if (!Object.entries) {
         if (settingsDt?.oApi?._fnGetUniqueThs !== undefined) {
           unique_th = settingsDt.oApi._fnGetUniqueThs(settingsDt);
         } else {
-          unique_th = oTable?.table().header?.structure()[0];
+          unique_th = oTable.table().header?.structure()[0];
           unique_th = unique_th.map(obj => obj.cell);
         }
         for (columnObjKey in args) {
@@ -5000,6 +5000,9 @@ if (!Object.entries) {
 
         var table_selector_jq_friendly = yadcf.generateTableSelectorJQFriendly2(oTable),
           table_selector_tmp;
+        if (!(oTable instanceof $.fn.dataTable.Api)) {
+          oTable = new $.fn.dataTable.Api(oTable);
+        }
         oTables[table_selector_jq_friendly] = oTable;
         tablesDT[table_selector_jq_friendly] = pTableDT;
         oTablesIndex[table_selector_jq_friendly] = index;
@@ -5067,8 +5070,6 @@ if (!Object.entries) {
                 let column_number = columnObj.column_number;
                 column_number = +column_number;
                 let column_position = column_number;
-                let table_selector_jq_friendly = yadcf.generateTableSelectorJQFriendly2(oTable);
-
                 loadFromStateSaveTextFilter(oTable, settings, columnObj, table_selector_jq_friendly, column_position, column_number);
               }
             }
@@ -5101,7 +5102,6 @@ if (!Object.entries) {
             }
           });
           $(document).off('column-reorder.dt', '#' + oTable.table().node().id).on('column-reorder.dt', '#' + oTable.table().node().id, function (e, settings, json) {
-            var table_selector_jq_friendly = generateTableSelectorJQFriendly2(oTable);
             initColReorderFromEvent(table_selector_jq_friendly);
           });
           $(document).off('destroy.dt', '#' + oTable.table().node().id).on('destroy.dt', '#' + oTable.table().node().id, function (event, ui) {
